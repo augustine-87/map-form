@@ -29,6 +29,12 @@
   </style>
 </head>
 <body>
+  <script>
+  const allowed = prompt("Nhập mật khẩu:");
+  if (allowed !== "123456") {
+    document.body.innerHTML = "<h2>Sai mật khẩu. Không được phép truy cập.</h2>";
+  }
+  </script>
   <h2>Chỉ đường từ A đến B</h2>
 
   <label>Tọa độ A:</label>
