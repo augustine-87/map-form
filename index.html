@@ -39,31 +39,44 @@
 
   <button onclick="go()">Xem đường đi</button>
 
-  <script>
-    function normalize(coordStr) {
-      const parts = coordStr.trim().split(',');
-      if (parts.length !== 4) return null;
+ <script>
+  function normalize(coordStr) {
+    coordStr = coordStr.trim()
+                       .replace(/[()]/g, '') // bỏ ngoặc tròn nếu có
+                       .replace(/\s+/g, ''); // bỏ dấu cách thừa
 
+    const parts = coordStr.split(',');
+
+    if (parts.length === 2) {
+      // Kiểu chuẩn: lat,lng
+      return coordStr;
+    }
+
+    if (parts.length === 4) {
+      // Kiểu Android: 10,2605184,106,3156957
       const lat = parts[0] + '.' + parts[1];
       const lng = parts[2] + '.' + parts[3];
       return `${lat},${lng}`;
     }
 
-    function go() {
-      const rawA = document.getElementById('coordA').value;
-      const rawB = document.getElementById('coordB').value;
+    return null;
+  }
 
-      const a = normalize(rawA);
-      const b = normalize(rawB);
+  function go() {
+    const rawA = document.getElementById('coordA').value;
+    const rawB = document.getElementById('coordB').value;
 
-      if (!a || !b) {
-        alert("Sai định dạng. Nhập 4 phần ngăn bởi dấu phẩy. VD: 10,762622,106,660172");
-        return;
-      }
+    const a = normalize(rawA);
+    const b = normalize(rawB);
 
-      const url = `https://www.google.com/maps/dir/${a}/${b}`;
-      window.open(url, "_blank");
+    if (!a || !b) {
+      alert("Sai định dạng. Chấp nhận các kiểu:\n- 10,2605184,106,3156957 (Android)\n- (10.2508889, 106.3970833) (iOS)\n- 10.762622,106.660172 (chuẩn)");
+      return;
     }
-  </script>
+
+    const url = `https://www.google.com/maps/dir/${a}/${b}`;
+    window.open(url, "_blank");
+  }
+</script>
 </body>
 </html>
