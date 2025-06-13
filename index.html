@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chỉ đường giữa 2 tọa độ</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #2c5d9f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Chỉ đường từ A đến B</h2>
+
+  <label>Tọa độ A:</label>
+  <input type="text" id="coordA" placeholder="VD: 10,762622,106,660172">
+
+  <label>Tọa độ B:</label>
+  <input type="text" id="coordB" placeholder="VD: 10,762622,106,682172">
+
+  <button onclick="go()">Xem đường đi</button>
+
+  <script>
+    function normalize(coordStr) {
+      const parts = coordStr.trim().split(',');
+      if (parts.length !== 4) return null;
+
+      const lat = parts[0] + '.' + parts[1];
+      const lng = parts[2] + '.' + parts[3];
+      return `${lat},${lng}`;
+    }
+
+    function go() {
+      const rawA = document.getElementById('coordA').value;
+      const rawB = document.getElementById('coordB').value;
+
+      const a = normalize(rawA);
+      const b = normalize(rawB);
+
+      if (!a || !b) {
+        alert("Sai định dạng. Nhập 4 phần ngăn bởi dấu phẩy. VD: 10,762622,106,660172");
+        return;
+      }
+
+      const url = `https://www.google.com/maps/dir/${a}/${b}`;
+      window.open(url, "_blank");
+    }
+  </script>
+</body>
+</html>
